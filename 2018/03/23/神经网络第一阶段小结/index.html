@@ -88,7 +88,7 @@
 <meta property="og:description" content="“神经网络是由具有适应性的简单单元组组成的广泛并行互联的网络，它的组织能够模拟生物神经系统对真实世界物体作出的交互反应”[Kohonce,1988]，初次接触神经网络，便深深的爱上了它，简直太过神奇，虽然到现在为止还没有人能证明所谓的“黑箱理论”，但是其应用早已如雨后春笋般拔地而起，并呈一发不可收拾之势迅速扩张。笔者在上完Andrew Ng教授的deep learning第一门课程之后，简直根本停">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://www.caomi.xyz/2018/03/23/神经网络第一阶段小结/tnn.jpg">
-<meta property="og:updated_time" content="2018-03-23T07:50:25.948Z">
+<meta property="og:updated_time" content="2018-03-23T07:54:33.281Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="神经网络第一阶段小结">
 <meta name="twitter:description" content="“神经网络是由具有适应性的简单单元组组成的广泛并行互联的网络，它的组织能够模拟生物神经系统对真实世界物体作出的交互反应”[Kohonce,1988]，初次接触神经网络，便深深的爱上了它，简直太过神奇，虽然到现在为止还没有人能证明所谓的“黑箱理论”，但是其应用早已如雨后春笋般拔地而起，并呈一发不可收拾之势迅速扩张。笔者在上完Andrew Ng教授的deep learning第一门课程之后，简直根本停">
@@ -330,7 +330,7 @@
 
       
         <p>“神经网络是由具有适应性的简单单元组组成的广泛并行互联的网络，它的组织能够模拟生物神经系统对真实世界物体作出的交互反应”[Kohonce,1988]，初次接触神经网络，便深深的爱上了它，简直太过神奇，虽然到现在为止还没有人能证明所谓的“黑箱理论”，但是其应用早已如雨后春笋般拔地而起，并呈一发不可收拾之势迅速扩张。笔者在上完Andrew Ng教授的deep learning第一门课程之后，简直根本停不下来了……以下为一个简单的两层神经网络的公式推导和代码实现，并给出了反向传播算法的纯手工推导，纯手工的……作为第一门课程的课程笔记。如果想要搭建一个深度神经网络（DNN），使用for-loop即可完成。<a id="more"></a></p>
-<h1 id="神经网络反向传播算法推倒及代码实现（Python）"><a href="#神经网络反向传播算法推倒及代码实现（Python）" class="headerlink" title="神经网络反向传播算法推倒及代码实现（Python）"></a>神经网络反向传播算法推倒及代码实现（Python）</h1><p><img src="/2018/03/23/神经网络第一阶段小结/tnn.jpg" alt="tnn"></p>
+<h1 id="神经网络反向传播算法推倒及代码实现（Python）"><a href="#神经网络反向传播算法推倒及代码实现（Python）" class="headerlink" title="神经网络反向传播算法推倒及代码实现（Python）"></a>神经网络反向传播算法推倒及代码实现（Python）</h1><p><img src="/2018/03/23/神经网络第一阶段小结/tnn.jpg" alt="tnn"><br>以上为一个两层神经网络示意图（计算图省略），隐藏层有4个神经元，第一层使用tanh作为激活函数，第二层使用sigmoid作为激活函数，输出层若大于0.5，则预测为正类，否则预测为负类。</p>
 <h2 id="1，首先初始化参数"><a href="#1，首先初始化参数" class="headerlink" title="1，首先初始化参数"></a>1，首先初始化参数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">w1 = np.random.randn(4,X.shape[0]) * 0.01 #使用高斯随机数</span><br><span class="line">b1 = np.zeros((4,1))</span><br><span class="line">w2 = np.random.randn(Y.shape[0], 4) * 0.01</span><br><span class="line">b2 = np.zeros((Y.shape[0], 1))</span><br></pre></td></tr></table></figure>
 <p>由于同一隐藏层各个神经元的计算方式相同，如果将W初始化全为0，则会导致同一隐藏层各个神经元的值相同（相当于只有一个神经元在起作用），因此达不到学习不同特征的目的，这样就有可能导致模型失效，无法收敛。因此在这里使用高斯随机数来初始化参数W，而b初始化全为0对NN的训练没有影响。</p>
 <h2 id="2，forward-propagation"><a href="#2，forward-propagation" class="headerlink" title="2，forward propagation"></a>2，forward propagation</h2><p>$$Z^{[1]} = W^{[1]}X+b^{[1]}$$<br>$$A^{[1]} = g^{[1]}(Z^{1})$$<br>$$Z^{[2]} = W^{[2]}A^{[1]}+b^{2}$$<br>$$A^{[2]} = g^{[2]}(Z^{[2]}) = \sigma(Z^{[2]})$$</p>
