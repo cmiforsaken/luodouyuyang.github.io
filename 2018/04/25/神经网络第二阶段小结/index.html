@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="AdaBoost," />
+  <meta name="keywords" content="Neural Networks," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="AdaBoost算法通过对训练数据的反复学习，得到一系列弱分类器，通过对这些弱分类器的组合构成一个强分类器。以下算法摘自李航《统计学习方法》第八章，加入了简单的计算批注，并对算法中权值更新的意义做了简短的个人理解陈述，读者若能结合《统计学习方法》一书中的实例，自己亲手计算一遍，则会感受到权值更新的关键意义以及它的奇妙之处，于此也能对该算法理解得更加透彻明朗（算法收敛性的证明及其解释等更多知识在《统">
-<meta name="keywords" content="AdaBoost">
+<meta name="description" content="在陆续完成prof. Andrew Ng的第二门和第三门深度学习课程后，除了继续领略和折服于深度学习的神秘和优雅之外，好像更多的还是深深感到其雄才大略未能食之冰山一角！DNN的特性犹如大脑中无数的神经元，使得机器也具备了认知复杂事物的能力（复杂事物的源分布），真正无监督时代的到来将意味着机器真正对人类的超越！历史总在不经意间泛起波澜，谁又能知道下一页会如何书写呢？回归正题，由于时间有限，本文简单介">
+<meta name="keywords" content="Neural Networks">
 <meta property="og:type" content="article">
-<meta property="og:title" content="AdaBoost算法核心思想理解">
-<meta property="og:url" content="http://www.caomi.xyz/2018/03/08/AdaBoost算法核心思想理解/index.html">
+<meta property="og:title" content="神经网络第二阶段小结">
+<meta property="og:url" content="http://www.caomi.xyz/2018/04/25/神经网络第二阶段小结/index.html">
 <meta property="og:site_name" content="Forsaken">
-<meta property="og:description" content="AdaBoost算法通过对训练数据的反复学习，得到一系列弱分类器，通过对这些弱分类器的组合构成一个强分类器。以下算法摘自李航《统计学习方法》第八章，加入了简单的计算批注，并对算法中权值更新的意义做了简短的个人理解陈述，读者若能结合《统计学习方法》一书中的实例，自己亲手计算一遍，则会感受到权值更新的关键意义以及它的奇妙之处，于此也能对该算法理解得更加透彻明朗（算法收敛性的证明及其解释等更多知识在《统">
+<meta property="og:description" content="在陆续完成prof. Andrew Ng的第二门和第三门深度学习课程后，除了继续领略和折服于深度学习的神秘和优雅之外，好像更多的还是深深感到其雄才大略未能食之冰山一角！DNN的特性犹如大脑中无数的神经元，使得机器也具备了认知复杂事物的能力（复杂事物的源分布），真正无监督时代的到来将意味着机器真正对人类的超越！历史总在不经意间泛起波澜，谁又能知道下一页会如何书写呢？回归正题，由于时间有限，本文简单介">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-23T03:26:40.947Z">
+<meta property="og:updated_time" content="2018-04-25T17:07:15.564Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="AdaBoost算法核心思想理解">
-<meta name="twitter:description" content="AdaBoost算法通过对训练数据的反复学习，得到一系列弱分类器，通过对这些弱分类器的组合构成一个强分类器。以下算法摘自李航《统计学习方法》第八章，加入了简单的计算批注，并对算法中权值更新的意义做了简短的个人理解陈述，读者若能结合《统计学习方法》一书中的实例，自己亲手计算一遍，则会感受到权值更新的关键意义以及它的奇妙之处，于此也能对该算法理解得更加透彻明朗（算法收敛性的证明及其解释等更多知识在《统">
+<meta name="twitter:title" content="神经网络第二阶段小结">
+<meta name="twitter:description" content="在陆续完成prof. Andrew Ng的第二门和第三门深度学习课程后，除了继续领略和折服于深度学习的神秘和优雅之外，好像更多的还是深深感到其雄才大略未能食之冰山一角！DNN的特性犹如大脑中无数的神经元，使得机器也具备了认知复杂事物的能力（复杂事物的源分布），真正无监督时代的到来将意味着机器真正对人类的超越！历史总在不经意间泛起波澜，谁又能知道下一页会如何书写呢？回归正题，由于时间有限，本文简单介">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://www.caomi.xyz/2018/03/08/AdaBoost算法核心思想理解/"/>
+  <link rel="canonical" href="http://www.caomi.xyz/2018/04/25/神经网络第二阶段小结/"/>
 
 
 
 
 
-  <title>AdaBoost算法核心思想理解 | Forsaken</title>
+  <title>神经网络第二阶段小结 | Forsaken</title>
   
 
 
@@ -233,7 +233,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.caomi.xyz/2018/03/08/AdaBoost算法核心思想理解/">
+    <link itemprop="mainEntityOfPage" href="http://www.caomi.xyz/2018/04/25/神经网络第二阶段小结/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Forsaken">
@@ -250,7 +250,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">AdaBoost算法核心思想理解</h1>
+          <h1 class="post-title" itemprop="name headline">神经网络第二阶段小结</h1>
         
 
         <div class="post-meta">
@@ -262,8 +262,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-08T16:25:56+08:00">
-                2018-03-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-25T20:35:27+08:00">
+                2018-04-25
               </time>
             
 
@@ -327,10 +327,11 @@
       
 
       
-        <p>AdaBoost算法通过对训练数据的反复学习，得到一系列弱分类器，通过对这些弱分类器的组合构成一个强分类器。以下算法摘自李航《统计学习方法》第八章，加入了简单的计算批注，并对算法中权值更新的意义做了简短的个人理解陈述，读者若能结合《统计学习方法》一书中的实例，自己亲手计算一遍，则会感受到权值更新的关键意义以及它的奇妙之处，于此也能对该算法理解得更加透彻明朗（算法收敛性的证明及其解释等更多知识在《统计学习方法》一书中也有详细阐述）。之所以开篇于此，一则为了熟悉算法，分享自己的见解；二则也权当练习LaTex公式代码，无奈于MathType傻瓜级用户转入LaTex专业级用户。更新于今夜1点零1分，实属不易……<a id="more"></a></p>
-<h1 id="AdaBoost算法"><a href="#AdaBoost算法" class="headerlink" title="AdaBoost算法"></a>AdaBoost算法</h1><h2 id="1，算法陈述："><a href="#1，算法陈述：" class="headerlink" title="1，算法陈述："></a>1，算法陈述：</h2><p>输入：训练数据集\( T =  \lbrace (x_1, y_1), (x_2, y_2), \cdots , (x_N, y_N) \rbrace \)，其中\(x_i \in\mathcal{X} \subseteq \mathbf{R}^n, y_i\in \mathcal{Y} = \lbrace-1,+1\rbrace\)；弱学习算法；<br>输出：最终分类器\(G(x)\).<br>（1）初始化训练数据的权值分布<br>                $$D_1 = (w_{11}, \cdots , w_{1i}, \cdots, w_{1N} ), w_{1i} = \frac{1}{N}, i = 1,2, \cdots, N$$<br>（2）对\(m = 1,2,\cdots, M\)<br>（a）使用具有权值分布\(D_m\)的训练数据集学习，得到基本分类器<br>                $$G_m(x): \mathcal{X}\rightarrow\lbrace-1,+1\rbrace$$<br>（b）计算\(G_m(x)\)在训练数据集上的分类误差率<br>                $$e_m = \sum_{i = 1}^NP(G_m(x_i)\ne y_i) = \sum_{i=1}^Nw_{mi}I(G_m(x_i) \ne y_i)$$<br>（c）计算\(G_m(x)\)的系数<br>                $$\alpha_m = \frac{1}{2}ln\frac{1-e_m}{e_m}$$<br>（d）更新训练数据集的权值分布<br>                $$D_{m+1} = (w_{m+1,1}, \cdots, w_{m+1,i}, \cdots, w_{m+1,N})$$<br>                $$w_{m+1,i} = \frac{w_{mi}}{Z_m}exp(-\alpha_my_iG_m(x_i)), i = 1,2,\cdots, N $$<br>这里\(Z_m\)是规范化因子<br>                $$Z_m = \sum_{i = 1}^N w_{mi}exp(-\alpha_my_iG_m(x_i))$$<br>它使\(D_{m+1}\)成为一个概率分布.<br>（3）构建基本分类器的线性组合<br>                $$f(x) = \sum_{m = 1}^M\alpha_mG_m(x)$$<br>得到最终分类器<br>                $$G(x) = sign(f(x)) = sign \left( \sum_{m = 1}^M\alpha_mG_m(x) \right)$$</p>
-<h2 id="2，训练数据更新权值的意义（即该算法的核心思想）"><a href="#2，训练数据更新权值的意义（即该算法的核心思想）" class="headerlink" title="2，训练数据更新权值的意义（即该算法的核心思想）"></a>2，训练数据更新权值的意义（即该算法的核心思想）</h2><p>提高误分类点的权值（误分类点的权值被放大\(e^{2\alpha_m} = \frac{1-e_m}{e_m}(\frac{\frac{w_{mi}}{Z_m} e^{\alpha_m}}{\frac{w_{mi}}{Z_m}e^{-\alpha_m}}= e^{2\alpha_m})\)倍），当下一次基分类器再次分错了这些点之后，会提高整体的误差率（\(e_m\)），这样就会导致\(\alpha_m\)变小，从而导致这个基分类器在整个最终分类器的权值\((\alpha_m)\)变低。也就是说，这个算法能让优秀的基分类器占最终分类器的权值更高，而不优秀的基分类器的权值更低。以上即为训练数据权值更新的意义，也是AdaBoost算法的核心地方。</p>
-<h2 id="3，参考文献"><a href="#3，参考文献" class="headerlink" title="3，参考文献"></a>3，参考文献</h2><p>李航.《统计学习方法》</p>
+        <p>在陆续完成prof. Andrew Ng的第二门和第三门深度学习课程后，除了继续领略和折服于深度学习的神秘和优雅之外，好像更多的还是深深感到其雄才大略未能食之冰山一角！DNN的特性犹如大脑中无数的神经元，使得机器也具备了认知复杂事物的能力（复杂事物的源分布），真正无监督时代的到来将意味着机器真正对人类的超越！历史总在不经意间泛起波澜，谁又能知道下一页会如何书写呢？回归正题，由于时间有限，本文简单介绍一下DNN的利器：BN.<a id="more"></a></p>
+<h1 id="浅谈Batch-Normalization-BN算法"><a href="#浅谈Batch-Normalization-BN算法" class="headerlink" title="浅谈Batch Normalization(BN算法)"></a>浅谈Batch Normalization(BN算法)</h1><p>Batch Normalization(批标准化)为Google2015年发表于计算机类顶级会议ICML上的一篇文章，号称当年机器学习界最有影响力的文章，其原名为：《Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift》，下面先叙述该算法，<br>对\(z^{(i)}\)进行操作：<br>$$<br>\begin{cases}<br>\mu = \frac{1}{m}\sum_{i}z^{(i)} \cdots  (1)\<br>\sigma^2 = \frac{1}{m}\sum_{i}(z^{(i)} - \mu)^{2} \cdots (2)\<br>z_{norm}^{(i)} = \frac{z^{(i)} - \mu}{\sqrt{\sigma^2+\varepsilon}} \cdots (3)\<br>\overset{\sim}{z}^{(i)} = \gamma z_{norm}^{(i)}+\beta \cdots (4)<br>\end{cases}<br>$$<br>(加\varepsilon是为了避免除0)(\gamma和\beta的值可通过学习得到)<br>上述\( (1)~(3)\)为标准化步骤，\( (4)\)为反标准化步骤。<br>$$E(z_{norm}^{(i)}) = 0,\quad D(z_{norm}^{(i)}) = 1,\quad E(\overset{\sim}{z}^{(i)}) = \beta,\quad D(\overset{\sim}{z}^{(i)}) = \gamma^2.$$<br>注意：如果\(\gamma = \sqrt{\sigma^2+\varepsilon}, \beta = \mu \Rightarrow \overset{\sim}{z}^{(i)} = z^{(i)}. \)即将BN处理后的\( \overset{\sim}{z}^{(i)} \)可以还原为\( z^{(i)} \)</p>
+<h2 id="在MBGD上应用BN："><a href="#在MBGD上应用BN：" class="headerlink" title="在MBGD上应用BN："></a>在MBGD上应用BN：</h2><p>$$X^{\lbrace 1 \rbrace} \xrightarrow{W^{[1]}, b{[1]}}Z^{[1]} \xrightarrow{\beta^{[1]}, \gamma^{[1]}} \overset{\sim}{Z}^{[1]} \to g^{(1)}(\overset{\sim}{Z}^{[1]}) = A^{[1]} \xrightarrow{W^{[2]}, b^{[2]}} Z^{[2]} \to \cdots$$<br>$$X^{\lbrace 2\rbrace } \xrightarrow{W^{[1]}, b^{[1]}}Z^{[1]} \xrightarrow[BN]{\beta^{[1]}, \gamma^{[1]}} \overset{\sim}{Z}^{[1]} \to \cdots $$<br>$$X^{\lbrace3\rbrace} \to \cdots$$<br>$$\cdots $$<br>parameters:\( W^{[l]}, b^{[l]}, \beta^{[l]}, \gamma^{[l]} \)，可忽略参数\( b^{[l]} \)<br>原因：\( z^{[l]} = w^{[l]}a^{[l-1]}+b^{[l]} \)，因为计算了\( z^{[l]} \)的均值，因此\( b^{[l]} \)常数项可直接忽略. \( \Rightarrow z^{[l]} = w^{[l]}\cdot a^{[l-1]} \Rightarrow \overset{\sim}{z}^{[l]} = \gamma^{[l]} \cdot z^{[l]}+\beta{[l]} \).实际上\( b^{[l]} \)将被\( \beta^{[l]} \)替代，并由\( \beta^{[l]} \)作用于\( \overset{\sim}{z}^{[l]} \)并传递到下一层。</p>
+<h2 id="BN算法实现："><a href="#BN算法实现：" class="headerlink" title="BN算法实现："></a>BN算法实现：</h2><p>for \( t = 1, \cdots ,\)num-Mini-batches<br>\( \quad\quad \)compute forward prop on \( X^{\lbrace t \rbrace} \) in each hidden layer, use BN to replace \( z^{[l]} \) with \( \overset{\sim}{z}^{[l]} \)<br>\( \quad\quad \)update parameters:<br>    $$\begin{cases}<br>    w^{[l]}:= w^{[l]}-\alpha\cdot w^{[l]}\<br>    \beta^{[l]}:= \beta^{[l]} - \alpha\cdot \beta^{[l]}\<br>    \gamma^{[l]}:= \gamma^{[l]}- \alpha\cdot \gamma^{[l]}<br>    \end{cases}<br>    $$<br>MGD，RMSProp，Adam同样奏效于\( w^{[l]}, \beta^{[l]}, \gamma^{[l]} \)的更新。</p>
+<h2 id="BN算法起作用的原因："><a href="#BN算法起作用的原因：" class="headerlink" title="BN算法起作用的原因："></a>BN算法起作用的原因：</h2><p>从数据分布，即解决“covariate shift”（协变量）的角度解释：<br>解决训练过程中出现的“covariate shift”（输入数据的分布产生变化）问题，在DNN的训练过程中，由于每次迭代都会更新各层的参数w和b，且通过激活函数进入下一层，即：<br>$$z^{[l]} = w^{[l]}a^{[l-1]}+b^{[l]} \Rightarrow g^{[l]}(z^{[l]}) = a^{[l]} \Rightarrow z^{[l+1]} = w^{[l+1]}a^{[l]}+b^{[l+1]} $$</p>
 
       
     </div>
@@ -372,7 +373,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/AdaBoost/" rel="tag"># AdaBoost</a>
+            <a href="/tags/Neural-Networks/" rel="tag"># Neural Networks</a>
           
         </div>
       
@@ -385,15 +386,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2018/03/23/神经网络第一阶段小结/" rel="next" title="神经网络第一阶段小结">
+                <i class="fa fa-chevron-left"></i> 神经网络第一阶段小结
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/03/23/神经网络第一阶段小结/" rel="prev" title="神经网络第一阶段小结">
-                神经网络第一阶段小结 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -544,7 +545,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#AdaBoost算法"><span class="nav-number">1.</span> <span class="nav-text">AdaBoost算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1，算法陈述："><span class="nav-number">1.1.</span> <span class="nav-text">1，算法陈述：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2，训练数据更新权值的意义（即该算法的核心思想）"><span class="nav-number">1.2.</span> <span class="nav-text">2，训练数据更新权值的意义（即该算法的核心思想）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3，参考文献"><span class="nav-number">1.3.</span> <span class="nav-text">3，参考文献</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#浅谈Batch-Normalization-BN算法"><span class="nav-number">1.</span> <span class="nav-text">浅谈Batch Normalization(BN算法)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#在MBGD上应用BN："><span class="nav-number">1.1.</span> <span class="nav-text">在MBGD上应用BN：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BN算法实现："><span class="nav-number">1.2.</span> <span class="nav-text">BN算法实现：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BN算法起作用的原因："><span class="nav-number">1.3.</span> <span class="nav-text">BN算法起作用的原因：</span></a></li></ol></li></ol></div>
             
 
           </div>
