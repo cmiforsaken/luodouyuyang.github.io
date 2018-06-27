@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="CNN," />
 
 
 
@@ -79,17 +79,25 @@
 
 
 
-<meta name="description" content="Land of the free.">
+<meta name="description" content="很早就想谈一下ResNet，但一直时间有限（可能更多的是想偷懒！^_^），现在终于能在紧张的期末复习备考中来写一写和那些考试科目毫无瓜葛的技术性的东西，哈哈哈……久未更新，还请本人多多见谅！毕竟初心未忘嘛！好了，现在就让我来总结一下自己对ResNet的拙见，领略一下图像领域凯明大神的过人之处！">
+<meta name="keywords" content="CNN">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅谈ResNet">
 <meta property="og:url" content="http://www.caomi.xyz/2018/06/06/浅谈ResNet/index.html">
 <meta property="og:site_name" content="Forsaken">
-<meta property="og:description" content="Land of the free.">
+<meta property="og:description" content="很早就想谈一下ResNet，但一直时间有限（可能更多的是想偷懒！^_^），现在终于能在紧张的期末复习备考中来写一写和那些考试科目毫无瓜葛的技术性的东西，哈哈哈……久未更新，还请本人多多见谅！毕竟初心未忘嘛！好了，现在就让我来总结一下自己对ResNet的拙见，领略一下图像领域凯明大神的过人之处！">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-06T14:11:38.935Z">
+<meta property="og:image" content="http://www.caomi.xyz/2018/06/06/浅谈ResNet/block.jpg">
+<meta property="og:image" content="http://www.caomi.xyz/2018/06/06/浅谈ResNet/resnet1.jpg">
+<meta property="og:image" content="http://www.caomi.xyz/2018/06/06/浅谈ResNet/resnet2.jpg">
+<meta property="og:image" content="http://www.caomi.xyz/2018/06/06/浅谈ResNet/resnet3.png">
+<meta property="og:image" content="http://www.caomi.xyz/2018/06/06/浅谈ResNet/resnet4.jpg">
+<meta property="og:image" content="http://www.caomi.xyz/2018/06/06/浅谈ResNet/resnet5.jpg">
+<meta property="og:updated_time" content="2018-06-27T05:11:37.686Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅谈ResNet">
-<meta name="twitter:description" content="Land of the free.">
+<meta name="twitter:description" content="很早就想谈一下ResNet，但一直时间有限（可能更多的是想偷懒！^_^），现在终于能在紧张的期末复习备考中来写一写和那些考试科目毫无瓜葛的技术性的东西，哈哈哈……久未更新，还请本人多多见谅！毕竟初心未忘嘛！好了，现在就让我来总结一下自己对ResNet的拙见，领略一下图像领域凯明大神的过人之处！">
+<meta name="twitter:image" content="http://www.caomi.xyz/2018/06/06/浅谈ResNet/block.jpg">
 
 
 
@@ -227,7 +235,7 @@
   
   
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-categories" itemscope itemtype="http://schema.org/Article">
   
   
   
@@ -272,6 +280,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -304,7 +334,18 @@
       
 
       
-        
+        <p>很早就想谈一下ResNet，但一直时间有限（可能更多的是想偷懒！^_^），现在终于能在紧张的期末复习备考中来写一写和那些考试科目毫无瓜葛的技术性的东西，哈哈哈……久未更新，还请本人多多见谅！毕竟初心未忘嘛！好了，现在就让我来总结一下自己对ResNet的拙见，领略一下图像领域凯明大神的过人之处！<a id="more"></a></p>
+<h1 id="浅谈ResNet（Residual-Networks）"><a href="#浅谈ResNet（Residual-Networks）" class="headerlink" title="浅谈ResNet（Residual Networks）"></a>浅谈ResNet（Residual Networks）</h1><p>ResNet为何凯明等几位大神于2015年提出的一种应用在CNN上的一种新的结构，该结构成功解决了深层卷积网络训练困难的问题，包括梯度消失和网络加深后难以收敛到最优结果的问题。下图为残差模块结构示意图：<br><img src="/2018/06/06/浅谈ResNet/block.jpg" alt="block"></p>
+<h2 id="1、有关ResNet中解决梯度消失的问题"><a href="#1、有关ResNet中解决梯度消失的问题" class="headerlink" title="1、有关ResNet中解决梯度消失的问题"></a>1、有关ResNet中解决梯度消失的问题</h2><p>以下以一个具有两个Residual block的具体例子来加以说明：<br><img src="/2018/06/06/浅谈ResNet/resnet1.jpg" alt="resnet1"><br><img src="/2018/06/06/浅谈ResNet/resnet2.jpg" alt="resnet2"><br>实际上从\(a^{[0]}\)到\(a^{[5]}\)，共有\(2^2 = 4\)条路径（n个残差块，就有\(2^n\)条路径），因此在BP时，也会有4条BP路径相加，因此就算是非常深的网络，浅层网络的梯度也依然能通过shortcut这条路径传回去（即便\((1) = (2) = (3)\)，但是（4）由于连乘很少，一定不会为0），因此无论多深的网络，其各层的参数都能得到有效的训练，也能使极深网络收敛到一个很好的结果，并不会因为网络的加深而产生梯度消失的问题（这种思想类似于LSTM中的门控思想）。<br>再如：<br>$$<br>\frac{dL}{dw^{[3]}} = \frac{dL}{d{a^{[5]}}}\cdot \frac{da^{[5]}}{dh^{[5]}}\cdot\frac{dh^{[5]}}{dz{[5]}}\cdot\frac{dz^{[5]}}{da^{[4]}}\cdot \frac{da^{[4]}}{dz^{[4]}}\cdot \frac{dz^{[4]}}{da^{[3]}}\cdot \frac{da^{[3]}}{dh^{[3]}}\cdot \frac{dh^{[3]}}{dz^{[3]}} \cdot \frac{dz^{[3]}}{dw^{[3]}} $$<br>$$\quad \quad \quad +\cdots \cdots \cdots \cdots \cdots \cdots \cdots \cdots \cdots \cdots \cdots \cdots \cdots \cdots \cdots \cdots \cdots \cdot 0 \quad (a^{[1]}不含w^{[3]}) $$<br>$$\quad \quad \quad +\cdots \cdots \cdots \cdots \cdot \frac{dh^{[5]}}{da^{[3]}}\cdot \frac{da^{[3]}}{dh^{[3]}} \cdot \frac{dh^{[3]}}{dz^{[3]}} \cdot\frac{dz^{[3]}}{dw^{[3]}} $$<br>$$\quad \quad \quad +\cdots \cdots \cdots \cdots \cdots \cdots \cdots \cdots \cdots \cdot 0<br>$$<br>深层网络的梯度与以上完全一致，这样就极其简单直观的说清楚了ResNet论文中的一堆复杂的公式。</p>
+<h2 id="2、有关ResNet的ensemble解释"><a href="#2、有关ResNet的ensemble解释" class="headerlink" title="2、有关ResNet的ensemble解释"></a>2、有关ResNet的ensemble解释</h2><p>而由以上BP过程又很容易看出，深度残差网络中，起作用的路径相对不深，深度残差网络并没有解决梯度消失的问题（因为(1)(2)(3)）依然为接近0，假设其为深层网络传到浅层网络的路径），它只是通过缩短有效连接路径使得网络变深。这就是另一篇论文《Residual Networks Behave Like Ensembles of Relatively Shallow Networks》中阐述的ensemble，实际上可以理解成无数浅神经网络的bagging，类似于RF。<br><img src="/2018/06/06/浅谈ResNet/resnet3.png" alt="resnet3"></p>
+<h2 id="3、有关ResNet中的恒等映射（identity-mapping）极其为什么叫残差网络这个名字的问题"><a href="#3、有关ResNet中的恒等映射（identity-mapping）极其为什么叫残差网络这个名字的问题" class="headerlink" title="3、有关ResNet中的恒等映射（identity mapping）极其为什么叫残差网络这个名字的问题"></a>3、有关ResNet中的恒等映射（identity mapping）极其为什么叫残差网络这个名字的问题</h2><p><img src="/2018/06/06/浅谈ResNet/resnet4.jpg" alt="resnet4"><br>增加的这几层只是对X（输出）做了恒等映射，也就是A输出X经过新增的层变成B的输出（\(H(x)\)）后没有发生变化，这样网络A和网络B的错误率就是想等的，这也就证明了加深后的网络不会比加深前的网络效果差。因为\(H(x) = F(x) + x. F(x) = 0. 即H(x) = x. 即H(x)为恒等映射\)<br>沿用上述例子<br>引入残差前：\(F(x) = z^{[3]} = 5.1（假设）. 若x = 5. 则F(5) = z^{[3]} = 5.1. x = a^{[1]}\)<br>引入残差，则：\(H^{[3]} = z^{[3]} + a^{[1]} = 5.1. 即z^{[3]} = 0.1\)<br>即\(z^{[3]} = F^{\prime}(x) = w^{[3]}\cdot a^{[2]} + b^{[3]} = 0.1\)，也就是用\(w^{[3]}\)和\(b^{[3]}\)去拟合0.1，而不再是5.1.即去拟合残差。<br>引入残差后对前向传播不会有任何影响，因为<br>$$<br>H^{[3]} = F(a^{[1]}) = 5.1<br>$$<br>$$g(z^{[3]}) = g(H^{[3]}) = g(5.1) = a^{[3]} \quad\quad 不变$$<br>对BP也没有任何影响，只是将<br><img src="/2018/06/06/浅谈ResNet/resnet5.jpg" alt="resnet5"><br>映射到了残差上，换了一个拟合目标来训练。<br>引入残差后的映射对输出的变化更敏感，如引入残差前从5.1到5.2，其变化率为2%，而引入残差后则就是从0.1到0.2，其变化率为100%，也就是引入残差后的输出变化对权重的调整作用一定会更大（应该就是这里的原因解决了极深网络的退化问题），由于将原映射的目标转移到了残差上，拟合原目标变成了拟合残差，也就是学习任务变成了学习这个恒等映射（identity mapping），这也是其被称为残差网络的原因。</p>
+<h2 id="4、小结"><a href="#4、小结" class="headerlink" title="4、小结"></a>4、小结</h2><p>引入残差（加入shortcut）这一改动使得网络更容易优化，并且能够通过增加相当的深度来提高准确率，因为网络的层数越多，提取的特征也越丰富，也越抽象，当然也就更具有意义。残差网络就是换了一个训练目标，使其能够提取更深层次的特征（每个残差块也并非都是孤立训练，因为它们也是整体网络的一部分，且由残差层层传递），而至于为什么是跨一层而不是两层或三层，是因为跨一层效果最好。（Identity Mappings in Deep Residual Networks这篇论文中对比了跨不同层的效果，发现跨一层的效果是最好的。）</p>
+<h2 id="5、参考文献"><a href="#5、参考文献" class="headerlink" title="5、参考文献"></a>5、参考文献</h2><ol>
+<li>Kaiming He,Xiangyu Zhang,Shaoqing Ren,Jian Sun:Deep Residual Learning for Image Recognition，Microsoft Research(2015)</li>
+<li>Andreas Veit,Michael Wilber,Serge Belongie:Residual Networks Behave Like Ensembles of Relatively Shallow Networks,Cornell University（2016）</li>
+<li>Kaiming He,Xiangyu Zhang,Shaoqing Ren,Jian Sun:Identity Mappings in Deep Residual Networks,Microsoft Research(2016)</li>
+</ol>
+
       
     </div>
     
@@ -342,6 +383,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CNN/" rel="tag"># CNN</a>
+          
+        </div>
       
 
       
@@ -421,8 +468,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -441,7 +497,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -463,7 +519,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -496,6 +552,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#浅谈ResNet（Residual-Networks）"><span class="nav-number">1.</span> <span class="nav-text">浅谈ResNet（Residual Networks）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、有关ResNet中解决梯度消失的问题"><span class="nav-number">1.1.</span> <span class="nav-text">1、有关ResNet中解决梯度消失的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、有关ResNet的ensemble解释"><span class="nav-number">1.2.</span> <span class="nav-text">2、有关ResNet的ensemble解释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、有关ResNet中的恒等映射（identity-mapping）极其为什么叫残差网络这个名字的问题"><span class="nav-number">1.3.</span> <span class="nav-text">3、有关ResNet中的恒等映射（identity mapping）极其为什么叫残差网络这个名字的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4、小结"><span class="nav-number">1.4.</span> <span class="nav-text">4、小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5、参考文献"><span class="nav-number">1.5.</span> <span class="nav-text">5、参考文献</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -730,6 +802,26 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
