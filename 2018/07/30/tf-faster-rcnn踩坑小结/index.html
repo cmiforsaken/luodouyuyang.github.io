@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="CNN," />
 
 
 
@@ -79,17 +79,18 @@
 
 
 
-<meta name="description" content="Land of the free.">
+<meta name="description" content="踩了整整一周的坑，终于用tf-faster-rcnn跑出了自己的object detection model，目前效果良好，现将这些坑都一一列出共享。本模型采用GPU训练环境（1080Ti，11G显存），使用res101 pre-trained模型参数进行初始化，VOC2007样式训练数据集，迭代100000次得到现在的模型。">
+<meta name="keywords" content="CNN">
 <meta property="og:type" content="article">
 <meta property="og:title" content="tf-faster-rcnn踩坑小结">
 <meta property="og:url" content="http://www.caomi.xyz/2018/07/30/tf-faster-rcnn踩坑小结/index.html">
 <meta property="og:site_name" content="Forsaken">
-<meta property="og:description" content="Land of the free.">
+<meta property="og:description" content="踩了整整一周的坑，终于用tf-faster-rcnn跑出了自己的object detection model，目前效果良好，现将这些坑都一一列出共享。本模型采用GPU训练环境（1080Ti，11G显存），使用res101 pre-trained模型参数进行初始化，VOC2007样式训练数据集，迭代100000次得到现在的模型。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-30T14:37:03.974Z">
+<meta property="og:updated_time" content="2018-07-30T14:50:45.143Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="tf-faster-rcnn踩坑小结">
-<meta name="twitter:description" content="Land of the free.">
+<meta name="twitter:description" content="踩了整整一周的坑，终于用tf-faster-rcnn跑出了自己的object detection model，目前效果良好，现将这些坑都一一列出共享。本模型采用GPU训练环境（1080Ti，11G显存），使用res101 pre-trained模型参数进行初始化，VOC2007样式训练数据集，迭代100000次得到现在的模型。">
 
 
 
@@ -227,7 +228,7 @@
   
   
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-categories" itemscope itemtype="http://schema.org/Article">
   
   
   
@@ -272,6 +273,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -304,7 +327,8 @@
       
 
       
-        
+        <p>踩了整整一周的坑，终于用tf-faster-rcnn跑出了自己的object detection model，目前效果良好，现将这些坑都一一列出共享。本模型采用GPU训练环境（1080Ti，11G显存），使用res101 pre-trained模型参数进行初始化，VOC2007样式训练数据集，迭代100000次得到现在的模型。<a id="more"></a></p>
+
       
     </div>
     
@@ -342,6 +366,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CNN/" rel="tag"># CNN</a>
+          
+        </div>
       
 
       
@@ -726,6 +756,26 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
