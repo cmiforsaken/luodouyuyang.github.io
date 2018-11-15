@@ -7,7 +7,7 @@
 
 <html class="theme-next muse use-motion" lang="zh-Hans">
 <head>
-  <meta charset="UTF-8"/>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 <meta name="theme-color" content="#222">
@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Forsaken">
 <meta property="og:description" content="AdaBoost算法通过对训练数据的反复学习，得到一系列弱分类器，通过对这些弱分类器的组合构成一个强分类器。以下算法摘自李航《统计学习方法》第八章，加入了简单的计算批注，并对算法中权值更新的意义做了简短的个人理解陈述，读者若能结合《统计学习方法》一书中的实例，自己亲手计算一遍，则会感受到权值更新的关键意义以及它的奇妙之处，于此也能对该算法理解得更加透彻明朗（算法收敛性的证明及其解释等更多知识在《统">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-23T03:26:40.947Z">
+<meta property="og:updated_time" content="2018-11-15T14:40:05.730Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AdaBoost算法核心思想理解">
 <meta name="twitter:description" content="AdaBoost算法通过对训练数据的反复学习，得到一系列弱分类器，通过对这些弱分类器的组合构成一个强分类器。以下算法摘自李航《统计学习方法》第八章，加入了简单的计算批注，并对算法中权值更新的意义做了简短的个人理解陈述，读者若能结合《统计学习方法》一书中的实例，自己亲手计算一遍，则会感受到权值更新的关键意义以及它的奇妙之处，于此也能对该算法理解得更加透彻明朗（算法收敛性的证明及其解释等更多知识在《统">
@@ -126,7 +126,7 @@
 
 
 
-  <title>AdaBoost算法核心思想理解 | Forsaken</title>
+  <title>AdaBoost算法核心思想理解 | Forsaken</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -145,7 +145,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -328,8 +328,23 @@
 
       
         <p>AdaBoost算法通过对训练数据的反复学习，得到一系列弱分类器，通过对这些弱分类器的组合构成一个强分类器。以下算法摘自李航《统计学习方法》第八章，加入了简单的计算批注，并对算法中权值更新的意义做了简短的个人理解陈述，读者若能结合《统计学习方法》一书中的实例，自己亲手计算一遍，则会感受到权值更新的关键意义以及它的奇妙之处，于此也能对该算法理解得更加透彻明朗（算法收敛性的证明及其解释等更多知识在《统计学习方法》一书中也有详细阐述）。之所以开篇于此，一则为了熟悉算法，分享自己的见解；二则也权当练习LaTex公式代码，无奈于MathType傻瓜级用户转入LaTex专业级用户。更新于今夜1点零1分，实属不易……<a id="more"></a></p>
-<h1 id="AdaBoost算法"><a href="#AdaBoost算法" class="headerlink" title="AdaBoost算法"></a>AdaBoost算法</h1><h2 id="1，算法陈述："><a href="#1，算法陈述：" class="headerlink" title="1，算法陈述："></a>1，算法陈述：</h2><p>输入：训练数据集\( T =  \lbrace (x_1, y_1), (x_2, y_2), \cdots , (x_N, y_N) \rbrace \)，其中\(x_i \in\mathcal{X} \subseteq \mathbf{R}^n, y_i\in \mathcal{Y} = \lbrace-1,+1\rbrace\)；弱学习算法；<br>输出：最终分类器\(G(x)\).<br>（1）初始化训练数据的权值分布<br>                $$D_1 = (w_{11}, \cdots , w_{1i}, \cdots, w_{1N} ), w_{1i} = \frac{1}{N}, i = 1,2, \cdots, N$$<br>（2）对\(m = 1,2,\cdots, M\)<br>（a）使用具有权值分布\(D_m\)的训练数据集学习，得到基本分类器<br>                $$G_m(x): \mathcal{X}\rightarrow\lbrace-1,+1\rbrace$$<br>（b）计算\(G_m(x)\)在训练数据集上的分类误差率<br>                $$e_m = \sum_{i = 1}^NP(G_m(x_i)\ne y_i) = \sum_{i=1}^Nw_{mi}I(G_m(x_i) \ne y_i)$$<br>（c）计算\(G_m(x)\)的系数<br>                $$\alpha_m = \frac{1}{2}ln\frac{1-e_m}{e_m}$$<br>（d）更新训练数据集的权值分布<br>                $$D_{m+1} = (w_{m+1,1}, \cdots, w_{m+1,i}, \cdots, w_{m+1,N})$$<br>                $$w_{m+1,i} = \frac{w_{mi}}{Z_m}exp(-\alpha_my_iG_m(x_i)), i = 1,2,\cdots, N $$<br>这里\(Z_m\)是规范化因子<br>                $$Z_m = \sum_{i = 1}^N w_{mi}exp(-\alpha_my_iG_m(x_i))$$<br>它使\(D_{m+1}\)成为一个概率分布.<br>（3）构建基本分类器的线性组合<br>                $$f(x) = \sum_{m = 1}^M\alpha_mG_m(x)$$<br>得到最终分类器<br>                $$G(x) = sign(f(x)) = sign \left( \sum_{m = 1}^M\alpha_mG_m(x) \right)$$</p>
-<h2 id="2，训练数据更新权值的意义（即该算法的核心思想）"><a href="#2，训练数据更新权值的意义（即该算法的核心思想）" class="headerlink" title="2，训练数据更新权值的意义（即该算法的核心思想）"></a>2，训练数据更新权值的意义（即该算法的核心思想）</h2><p>提高误分类点的权值（误分类点的权值被放大\(e^{2\alpha_m} = \frac{1-e_m}{e_m}(\frac{\frac{w_{mi}}{Z_m} e^{\alpha_m}}{\frac{w_{mi}}{Z_m}e^{-\alpha_m}}= e^{2\alpha_m})\)倍），当下一次基分类器再次分错了这些点之后，会提高整体的误差率（\(e_m\)），这样就会导致\(\alpha_m\)变小，从而导致这个基分类器在整个最终分类器的权值\((\alpha_m)\)变低。也就是说，这个算法能让优秀的基分类器占最终分类器的权值更高，而不优秀的基分类器的权值更低。以上即为训练数据权值更新的意义，也是AdaBoost算法的核心地方。</p>
+<h1 id="AdaBoost算法"><a href="#AdaBoost算法" class="headerlink" title="AdaBoost算法"></a>AdaBoost算法</h1><h2 id="1，算法陈述："><a href="#1，算法陈述：" class="headerlink" title="1，算法陈述："></a>1，算法陈述：</h2><p>输入：训练数据集\( T =  \lbrace (x_1, y_1), (x_2, y_2), \cdots , (x_N, y_N) \rbrace \)，其中\(x_i \in\mathcal{X} \subseteq \mathbf{R}^n, y_i\in \mathcal{Y} = \lbrace-1,+1\rbrace\)；弱学习算法；<br>输出：最终分类器\(G(x)\).<br>（1）初始化训练数据的权值分布</p>
+<script type="math/tex; mode=display">D_1 = (w_{11}, \cdots , w_{1i}, \cdots, w_{1N} ), w_{1i} = \frac{1}{N}, i = 1,2, \cdots, N</script><p>（2）对\(m = 1,2,\cdots, M\)<br>（a）使用具有权值分布\(D_m\)的训练数据集学习，得到基本分类器</p>
+<pre><code>            $$G_m(x): \mathcal{X}\rightarrow\lbrace-1,+1\rbrace$$
+</code></pre><p>（b）计算\(G_m(x)\)在训练数据集上的分类误差率</p>
+<pre><code>            $$e_m = \sum_{i = 1}^NP(G_m(x_i)\ne y_i) = \sum_{i=1}^Nw_{mi}I(G_m(x_i) \ne y_i)$$
+</code></pre><p>（c）计算\(G_m(x)\)的系数</p>
+<pre><code>            $$\alpha_m = \frac{1}{2}ln\frac{1-e_m}{e_m}$$
+</code></pre><p>（d）更新训练数据集的权值分布</p>
+<pre><code>            $$D_{m+1} = (w_{m+1,1}, \cdots, w_{m+1,i}, \cdots, w_{m+1,N})$$
+            $$w_{m+1,i} = \frac{w_{mi}}{Z_m}exp(-\alpha_my_iG_m(x_i)), i = 1,2,\cdots, N $$
+</code></pre><p>这里\(Z_m\)是规范化因子</p>
+<pre><code>            $$Z_m = \sum_{i = 1}^N w_{mi}exp(-\alpha_my_iG_m(x_i))$$
+</code></pre><p>它使\(D_{m+1}\)成为一个概率分布.<br>（3）构建基本分类器的线性组合</p>
+<pre><code>            $$f(x) = \sum_{m = 1}^M\alpha_mG_m(x)$$
+</code></pre><p>得到最终分类器</p>
+<pre><code>            $$G(x) = sign(f(x)) = sign \left( \sum_{m = 1}^M\alpha_mG_m(x) \right)$$
+</code></pre><h2 id="2，训练数据更新权值的意义（即该算法的核心思想）"><a href="#2，训练数据更新权值的意义（即该算法的核心思想）" class="headerlink" title="2，训练数据更新权值的意义（即该算法的核心思想）"></a>2，训练数据更新权值的意义（即该算法的核心思想）</h2><p>提高误分类点的权值（误分类点的权值被放大\(e^{2\alpha_m} = \frac{1-e_m}{e_m}(\frac{\frac{w_{mi}}{Z_m} e^{\alpha_m}}{\frac{w_{mi}}{Z_m}e^{-\alpha_m}}= e^{2\alpha_m})\)倍），当下一次基分类器再次分错了这些点之后，会提高整体的误差率（\(e_m\)），这样就会导致\(\alpha_m\)变小，从而导致这个基分类器在整个最终分类器的权值\((\alpha_m)\)变低。也就是说，这个算法能让优秀的基分类器占最终分类器的权值更高，而不优秀的基分类器的权值更低。以上即为训练数据权值更新的意义，也是AdaBoost算法的核心地方。</p>
 <h2 id="3，参考文献"><a href="#3，参考文献" class="headerlink" title="3，参考文献"></a>3，参考文献</h2><p>李航.《统计学习方法》</p>
 
       
@@ -803,7 +818,24 @@
         }
       });
     </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
   
 
 
