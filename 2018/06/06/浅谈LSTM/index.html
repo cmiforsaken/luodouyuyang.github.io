@@ -90,7 +90,7 @@
 <meta property="og:image" content="http://www.caomi.xyz/2018/06/06/浅谈LSTM/LSTM_1.png">
 <meta property="og:image" content="http://www.caomi.xyz/2018/06/06/浅谈LSTM/LSTM_2.jpg">
 <meta property="og:image" content="http://www.caomi.xyz/2018/06/06/浅谈LSTM/LSTM_3.jpg">
-<meta property="og:updated_time" content="2018-11-16T02:26:01.781Z">
+<meta property="og:updated_time" content="2018-11-16T05:44:08.865Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅谈LSTM">
 <meta name="twitter:description" content="LSTM（Long Short-Term Memory）实属RNN大家庭里一根不好啃的骨头，直到现在，我也依然没有完全理清我混乱的思绪，不过基本也算是八九不离十了，现在就将我自己的拙见分享出来，供自己日后指正，也供臭味相投的人批评、指正！">
@@ -309,8 +309,8 @@
 
           
             <span class="post-meta-divider">|</span>
-            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
-            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
             </span>
           
 
@@ -354,7 +354,7 @@
 \frac{dL^{<t>}}{dW_o} = \frac{dL^{<t>}}{d \Gamma^{<t>}_{o}} \cdot \frac{d \Gamma^{<t>}_{o}}{dg} \cdot \frac{dg}{dW_o} = d \Gamma^{<t>}_{o} \cdot \Gamma^{<t>}_{o} \cdot (1-\Gamma^{<t>}_{o}) \cdot \dbinom{a^{<t-1>}}{x^{<t>}}^{T}</script><script type="math/tex; mode=display">
 \frac{dL^{<t>}}{dW_c} = \frac{dL^{<t>}}{d \tilde{c}^{<t>}} \cdot \frac{d \tilde{c}^{<t>}}{dg} \cdot \frac{dg}{dW_c} = d \tilde{c}^{<t>} \cdot (1-tanh(\tilde{c}^{<t>})^{2}) \cdot \dbinom{a^{<t-1>}}{x^{<t>}}^{T}</script><p>注：上述后四个公式中\( \cdot \)表示哈达玛积</p>
 <h2 id="LSTM能学到长期依赖的原因"><a href="#LSTM能学到长期依赖的原因" class="headerlink" title="LSTM能学到长期依赖的原因"></a>LSTM能学到长期依赖的原因</h2><p>从BP的角度来理解，由原来的两项相加（如果像LSTM只考虑一条路径的话则只有一项（\( W^{T}_{aa} \cdot da^{&lt; t+1 &gt;}\)））变成了4项相加，因此在递推过程中会衍生出更多的加号，且在BP过程中多了细胞状态\(c^{&lt; t &gt;}\)这条路径，而在这条路径上传递的信息不易损失。<br>按个人理解，实际上不管是LSTM还是GRU还是其他LSTM变体，其“记忆”功能的增强主要依靠的还是前向传播，在前向传播的过程中，多了细胞状态\(c^{&lt; t &gt;}\)这条路径，而在这条路径上只有一些少量的线性交互，因此信息在这条路径上保持不变会很容易，通俗地讲，就是因为每一步前向传播在更新状态时都带着旧状态的信息（且携带多少可通过学习得到），因此在BP过程中，尽管当前时刻在更新梯度时还是无法包含离当前时刻比较久远时刻的误差信息，但是实际上当前时刻的近邻时刻中本身就包含着比较久远时刻的状态的信息，（因为\( \Gamma^{&lt; t &gt;}_{f}\)如果一直较大的话，则能保留之前比较久远的状态的信息）因此在更新梯度时，尽管还是只有几个临近的时刻在起作用，但由于这几个临近的时刻记忆的信息很远/多（BP中\(c^{&lt; t &gt;}\)由一条单独的路径且在更新权重的过程中包含这条路径），因此实际上就相当于包含了离当前时刻比较久远时刻的误差信息。因此LSTM能够学习到长期依赖。<br>在LSTM的原文中正文部分论述的也是前向传播对于学到长期依赖的原因，而BP的推导则放在附录部分，不过其是按原始CEC（constant error carousel），即\(\Gamma^{&lt; t &gt;}_{f} \equiv 1\)来推导的。<br>也不知道我的理解是对还是错，希望有大佬来指正讨论！</p>
-<h2 id="补充说明"><a href="#补充说明" class="headerlink" title="补充说明"></a>补充说明</h2><p>（1）LSTM也是对整个序列的梯度加总后更新权重参数的，同原始RNN；<br>（2）LSTM中为什么一定要用tanh作为激活函数？<br>将输入的均值调整为0，便于后续处理，效果好。（具体原因尚不确定！😂）（原始RNN中可以使用ReLU，切效果不错，而用sigmoid的原因是因为门控的设计，“开”或“关”分别对应1和0，因此这里必须要是sigmoid）。</p>
+<h2 id="补充说明"><a href="#补充说明" class="headerlink" title="补充说明"></a>补充说明</h2><p>（1）LSTM也是对整个序列的梯度加总后更新权重参数的，同原始RNN；<br>（2）LSTM中为什么一定要用tanh作为激活函数？<br>将输入的均值调整为0，便于后续处理，效果好。（具体原因尚不确定！😂）（原始RNN中可以使用ReLU，且效果不错，而用sigmoid的原因是因为门控的设计，“开”或“关”分别对应1和0，因此这里必须要是sigmoid）。</p>
 <h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>[1]<a href="https://www.cnblogs.com/taojake-ML/p/6272605.html" target="_blank" rel="noopener">https://www.cnblogs.com/taojake-ML/p/6272605.html</a><br>[2]Junyoung Chung,Caglar Gulcehre,KyungHyun Cho,Yoshua Bengio:Empirical Evaluation of Gated Recurrent Neural Networks on Sequence Modeling,Universite ́ de Montre ́al(2014)<br>[3]Hochreiter,Schmidhuber:LONG SHORT TERM MEMORY,Technische Universitat Munchen(1997)<br>[4]Andrew Ng:<a href="https://www.coursera.org/deep" target="_blank" rel="noopener">https://www.coursera.org/deep</a> learning.ai(2018)</p>
 
       
@@ -618,7 +618,7 @@
 
   
     <span class="site-uv">
-      <i class="fa fa-user"></i> 访问人数
+      <i class="fa fa-user"></i>
       <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
       
     </span>
@@ -626,9 +626,9 @@
 
   
     <span class="site-pv">
-      <i class="fa fa-eye"></i> 访问总量
+      <i class="fa fa-eye"></i>
       <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
-      次
+      
     </span>
   
 </div>
