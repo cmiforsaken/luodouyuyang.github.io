@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://www.caomi.xyz/2018/11/21/对，没错，就是“干”！（GAN）/gan_2.jpg">
 <meta property="og:image" content="http://www.caomi.xyz/2018/11/21/对，没错，就是“干”！（GAN）/gan_4.jpg">
 <meta property="og:image" content="http://www.caomi.xyz/2018/11/21/对，没错，就是“干”！（GAN）/gan_3.png">
-<meta property="og:updated_time" content="2018-11-30T04:27:37.361Z">
+<meta property="og:updated_time" content="2018-11-30T05:04:15.772Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="对，没错，就是“干”！（GAN）">
 <meta name="twitter:description" content="GAN（Generative Adversarial Nets）于14年由Ian J. Goodfellow提出，虽然在理论上看起来还是相当的漂亮，但是在实际的训练上却没那么的漂亮，直到17年W-GAN的提出，以及仅仅三个月后W-GAN-GP的提出才弥补了这一缺陷，而且理论上更加的漂亮，似乎已经无懈可击，但是最近Google的一项研究表示，不管是什么GAN的变种，其表现和原始GAN实际上都相差无几">
@@ -335,10 +335,10 @@
         <p>GAN（Generative Adversarial Nets）于14年由Ian J. Goodfellow提出，虽然在理论上看起来还是相当的漂亮，但是在实际的训练上却没那么的漂亮，直到17年W-GAN的提出，以及仅仅三个月后W-GAN-GP的提出才弥补了这一缺陷，而且理论上更加的漂亮，似乎已经无懈可击，但是最近Google的一项研究表示，不管是什么GAN的变种，其表现和原始GAN实际上都相差无几，对于庞大的GAN家族，无奈😂😂😂……<a id="more"></a></p>
 <h1 id="本文只介绍原始GAN的思想、推导以及缺陷，后续内容有时间在继续推出。"><a href="#本文只介绍原始GAN的思想、推导以及缺陷，后续内容有时间在继续推出。" class="headerlink" title="本文只介绍原始GAN的思想、推导以及缺陷，后续内容有时间在继续推出。"></a>本文只介绍原始GAN的思想、推导以及缺陷，后续内容有时间在继续推出。</h1><h2 id="Basic-idea-of-GAN"><a href="#Basic-idea-of-GAN" class="headerlink" title="Basic idea of GAN"></a>Basic idea of GAN</h2><p>GAN的目标函数（价值函数）：</p>
 <script type="math/tex; mode=display">
-\min_G \max_D V(D,G) = E_{x \sim P_{data}}logD(x) + E_{z \sim P_{z}(z)}log(1 - D(G(z)))</script><p>上述公式中，D是判别器，G是生成器，，从判别器的角度看，它希望自己尽可能区分真实样本和虚假样本，因此希望$D(x)$尽可能大，$D(G(z))$尽可能小，即$V(D,G)$尽可能大。从生成器G的角度看，它希望自己生成的样本尽可能骗过D，也就是希望$D(G(z))$尽可能大，即$V(D,G)$尽可能小，两个模型相互对抗/博弈，最后达到全局最优。（$P_{data}(x)$为真实样本的数据分布，$P_{z}(z)$为原始噪音的分布，$G(z)$为生成器/映射函数，即为噪音z经过生成器后生成的新的数据，其所有数据聚集起来服从$P_G$分布，即z经过生成器后的数据分布，学习的目标就是要让$P_{data}(x)$与$P_G$尽可能一样，即让$P_G$去拟合$P_{data}(x)$这个数据分布。）</p>
+\min_G \max_D V(D,G) = E_{x \sim P_{data}}logD(x) + E_{z \sim P_{z}(z)}log(1 - D(G(z)))</script><p>上述公式中，D是判别器，G是生成器，从判别器的角度看，它希望自己尽可能区分真实样本和虚假样本，因此希望$D(x)$尽可能大，$D(G(z))$尽可能小，即$V(D,G)$尽可能大。从生成器G的角度看，它希望自己生成的样本尽可能骗过D，也就是希望$D(G(z))$尽可能大，即$V(D,G)$尽可能小，两个模型相互对抗/博弈，最后达到全局最优。（$P_{data}(x)$为真实样本的数据分布，$P_{z}(z)$为原始噪音的分布，$G(z)$为生成器/映射函数，即为噪音z经过生成器后生成的新的数据，其所有数据聚集起来服从$P_G$分布，即z经过生成器后的数据分布，学习的目标就是要让$P_{data}(x)$与$P_G$尽可能一样，即让$P_G$去拟合$P_{data}(x)$这个数据分布。）</p>
 <h2 id="证明：对上述目标函数进行最优化求解有唯一解-G-，并且该唯一解满足-P-G-P-data"><a href="#证明：对上述目标函数进行最优化求解有唯一解-G-，并且该唯一解满足-P-G-P-data" class="headerlink" title="证明：对上述目标函数进行最优化求解有唯一解$G^{*}$，并且该唯一解满足$P_G=P_{data}$"></a>证明：对上述目标函数进行最优化求解有唯一解$G^{*}$，并且该唯一解满足$P_G=P_{data}$</h2><p>在极大极小博弈的第一步中，给定G，最大化$V(D,G)$，从而得出最优判别器D，其中，最大化$V(D,G)$的过程就是在评估$P_G$和$P_{data}$之间的差异或者说距离（JS散度），公式化表述即为：</p>
 <script type="math/tex; mode=display">
-\max_D V(D,G) \quad \quad V(D,G)=E_{x \sim P_{data}}log(D(x)) + E_{x \sim P_G}(log(1-D(x)))</script><p>由上述期望式转化成积分式：</p>
+\max_D V(D,G) \quad \quad V(D,G)=E_{x \sim P_{data}}log(D(x)) + E_{x \sim P_G}(log(1-D(x)))</script><p>由上述期望式转化成积分式：$*$</p>
 <script type="math/tex; mode=display">
 \begin{align}
 & = \int_{x}P_{data}(x) \cdot log(D(x))dx + \int_{x}P_G(x) \cdot log(1-D(x))dx \\
@@ -346,7 +346,7 @@
 \end{align}</script><p>令$P_{data}(x) = a, \quad P_{G}(x) = b, \quad D(x) = D.$现要求上式的最大值，等价于求$P_{data}(x) \cdot logD(x) + P_{G}(x) \cdot log(1-D(x))$的最大值，即令：</p>
 <script type="math/tex; mode=display">
 f(D) = a \cdot logD + b \cdot log(1-D) \\</script><script type="math/tex; mode=display">
-\frac{df(D)}{dD} = \frac{a}{D} - \frac{b}{1 - D}=0 \Rightarrow D^* = \frac{a}{a + b}(D^*即为f(D)的极大值)</script><p>还原即得$D^<em>(x) = \frac{P_{data}(x)}{P_{data}(x) + P_G(x)} \Rightarrow 0&lt; D^</em>(x) &lt; 1 $当算法收敛得到最优解$P_{data}(x) = P_G(x)$时，$D^<em>(x) \equiv \frac{1}{2}$。即对于最优生成器生成的$G(z) = x$，最优判别器$D^</em>_{G}(x)= \frac{1}{2}$，即该判别器已经无法判别该样本是来自$P_{data}(x)$还是来自$P_{G}(x)$了，即认为x来自$P_{data}(x)$和$P_{G}(x)$的概率都是$\frac{1}{2}$.<br>求出了最优判别器$D^<em>$，则进行第二步，给定$D^</em>$，$ \min \limits_{G} V(G, D^*) $：</p>
+\frac{df(D)}{dD} = \frac{a}{D} - \frac{b}{1 - D}=0 \Rightarrow D^* = \frac{a}{a + b}(D^*即为f(D)的极大值)</script><p>还原即得$ D^{<em>}(x) = \frac{P_{data}(x)}{P_{data}(x) + P_G(x)} \Rightarrow 0&lt; D^{</em>}(x) &lt; 1 $当算法收敛得到最优解$P_{data}(x) = P_G(x)$时，$D^<em>(x) \equiv \frac{1}{2}$。即对于最优生成器生成的$G(z) = x$，最优判别器$D^</em>_{G}(x)= \frac{1}{2}$，即该判别器已经无法判别该样本是来自$P_{data}(x)$还是来自$P_{G}(x)$了，即认为x来自$P_{data}(x)$和$P_{G}(x)$的概率都是$\frac{1}{2}$.<br>求出了最优判别器$D^<em>$，则进行第二步，给定$D^</em>$，$ \min \limits_{G} V(G, D^*) $：</p>
 <script type="math/tex; mode=display">
 \begin{align}
 V(G, D^*) & = E_{x \sim P_{data}(x)}[log\frac{P_{data}(x)}{P_{data}(x) + P_{G}(x)}] + E_{x \sim P_{G}}[\frac{P_{G}(x)}{P_{data}(x) + P_{G}(x)}] \\
