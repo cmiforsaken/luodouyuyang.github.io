@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://www.caomi.xyz/2018/11/21/对，没错，就是“干”！（GAN）/gan_2.jpg">
 <meta property="og:image" content="http://www.caomi.xyz/2018/11/21/对，没错，就是“干”！（GAN）/gan_4.jpg">
 <meta property="og:image" content="http://www.caomi.xyz/2018/11/21/对，没错，就是“干”！（GAN）/gan_3.png">
-<meta property="og:updated_time" content="2018-11-30T05:58:20.666Z">
+<meta property="og:updated_time" content="2018-11-30T08:04:42.619Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="对，没错，就是“干”！（GAN）">
 <meta name="twitter:description" content="GAN（Generative Adversarial Nets）于14年由Ian J. Goodfellow提出，虽然在理论上看起来还是相当的漂亮，但是在实际的训练上却没那么的漂亮，直到17年W-GAN的提出，以及仅仅三个月后W-GAN-GP的提出才弥补了这一缺陷，而且理论上更加的漂亮，似乎已经无懈可击，但是最近Google的一项研究表示，不管是什么GAN的变种，其表现和原始GAN实际上都相差无几">
@@ -338,7 +338,7 @@
 \min_G \max_D V(D,G) = E_{x \sim P_{data}}logD(x) + E_{z \sim P_{z}(z)}log(1 - D(G(z)))</script><p>上述公式中，D是判别器，G是生成器，从判别器的角度看，它希望自己尽可能区分真实样本和虚假样本，因此希望$D(x)$尽可能大，$D(G(z))$尽可能小，即$V(D,G)$尽可能大。从生成器G的角度看，它希望自己生成的样本尽可能骗过D，也就是希望$D(G(z))$尽可能大，即$V(D,G)$尽可能小，两个模型相互对抗/博弈，最后达到全局最优。（$P_{data}(x)$为真实样本的数据分布，$P_{z}(z)$为原始噪音的分布，$G(z)$为生成器/映射函数，即为噪音z经过生成器后生成的新的数据，其所有数据聚集起来服从$P_G$分布，即z经过生成器后的数据分布，学习的目标就是要让$P_{data}(x)$与$P_G(x)$尽可能一样，即让$P_G(x)$去拟合$P_{data}(x)$这个数据分布。）</p>
 <h2 id="证明：对上述目标函数进行最优化求解有唯一解-G-，并且该唯一解满足-P-G-P-data"><a href="#证明：对上述目标函数进行最优化求解有唯一解-G-，并且该唯一解满足-P-G-P-data" class="headerlink" title="证明：对上述目标函数进行最优化求解有唯一解$G^{*}$，并且该唯一解满足$P_G=P_{data}$"></a>证明：对上述目标函数进行最优化求解有唯一解$G^{*}$，并且该唯一解满足$P_G=P_{data}$</h2><p>在极大极小博弈的第一步中，给定G，最大化$V(D,G)$，从而得出最优判别器D，其中，最大化$V(D,G)$的过程就是在评估$P_G$和$P_{data}$之间的差异或者说距离（JS散度），公式化表述即为：</p>
 <script type="math/tex; mode=display">
-\max_D V(D,G) \quad \quad V(D,G)=E_{x \sim P_{data}}log(D(x)) + E_{x \sim P_G}(log(1-D(x)))</script><p>由上述期望式转化成积分式：$D^{*}(x)$你好</p>
+\max_D V(D,G) \quad \quad V(D,G)=E_{x \sim P_{data}}log(D(x)) + E_{x \sim P_G}(log(1-D(x)))</script><p>由上述期望式转化成积分式：</p>
 <script type="math/tex; mode=display">
 \begin{align}
 & = \int_{x}P_{data}(x) \cdot log(D(x))dx + \int_{x}P_G(x) \cdot log(1-D(x))dx \\
@@ -359,7 +359,7 @@ V(G, D^*) & = E_{x \sim P_{data}(x)}[log\frac{P_{data}(x)}{P_{data}(x) + P_{G}(x
 \end{align}</script><p>即第二步就是在$\min P_{data}(x)$与$P_{G}(x)$之间的JS散度，也就是在拉近$P_{data}(x)$与$P_{G}(x)$的距离。这就证明了优化上述目标函数能够得到唯一解$G^*$，且该唯一解满足$P_{data}(x) = P_{G}(x)$。<br>注：<br>（1）这里的证明是基于$E_{z \sim P_{z}(z)}log(1 - D(G(z))) = E_{x \sim P_G}(log(1-D(x)))$的，该等式源于测度论中的RN定理，但是用在这里的证明并不严谨，只不过大家都这么说；<br>（2）JS散度：</p>
 <script type="math/tex; mode=display">
 JS(P||Q) = \frac{1}{2}KL(P||M) + \frac{1}{2}KL(Q||M). \quad M = \frac{1}{2}(P + Q)</script><p>$0 &lt; JS &lt; log2$，也用于衡量两个分布之间的距离，同KL散度，但是JS散度相较于KL散度具有对称性。</p>
-<h2 id="对上述过程的通俗化说明："><a href="#对上述过程的通俗化说明：" class="headerlink" title="对上述过程的通俗化说明："></a>对上述过程的通俗化说明：</h2><p>第一步：G为随机给定的一个分布，记为$G_0$，其产生的图片为$G_{0}(z)$，首先$ \max \limits_{D} E_{x \sim P_{data}}logD(x) + E_{z \sim P_{z}(z)}log(1 - D(G_{0}(z)))$。即对于来自真实样本的x，使得$D(x)$尽可能的大，对于来自$P_{z}(z)$分布中的样本z，尽量使$D(G(z))$变小，这样根据原始$G_{0}$就产生了最优的<script type="math/tex">D_{G_{0}}^{*}</script>；<br>第二步：给定<script type="math/tex">D_{G_{0}}^*</script>，计算<script type="math/tex">\min \limits_{G} V(G_{0}, D_{G_{0}}^*)</script>，即在给定<script type="math/tex">D_{G_{0}}^*</script>的情况下，更新$G_{0}$的参数，使得$D(G(z))$变大，也就是让$G_{0}$生成的图片尽量真实，从而让<script type="math/tex">D_{G_{0}}^*</script>给出更高的分数。其等价于让$1 - D(G(z))$变小，由于第一项$E_{x \sim P_{data}}logD(x)$与更新$G_{0}$的参数毫无关系，因此可直接忽略。因此就变成了$\min \limits_{G} E_{z \sim P_{z}(z)}log(1 - D(G_{0}(z))) = G_{1}$，更新完成后即得到了第一代$G_{1}$；<br>第三步：给定$G_{1}$，<script type="math/tex">\max \limits_{D} V(G_{1}, D_{G_{0}}^*)) = D_{G_{1}}^*)</script>；<br>第四步：给定<script type="math/tex">D_{G_{1}}^*</script>， <script type="math/tex">\min \limits_{G}V(G_{1}, D_{G_{1}}^*)) = G_2</script>；<br>……循环往复……<br>注意：用梯度上升法（GA）找最优的$D^*$时需要更新参数多次直至找到最优的判别器，而在更新G时，一般只需更新一次，因为更新多次的话就不能保证JS下降了。</p>
+<h2 id="对上述过程的通俗化说明："><a href="#对上述过程的通俗化说明：" class="headerlink" title="对上述过程的通俗化说明："></a>对上述过程的通俗化说明：</h2><p>第一步：G为随机给定的一个分布，记为$G_0$，其产生的图片为$G_{0}(z)$，首先$ \max \limits_{D} E_{x \sim P_{data}}logD(x) + E_{z \sim P_{z}(z)}log(1 - D(G_{0}(z)))$。即对于来自真实样本的x，使得$D(x)$尽可能的大，对于来自$P_{z}(z)$分布中的样本z，尽量使$D(G(z))$变小，这样根据原始$G_{0}$就产生了最优的<script type="math/tex">D_{G_{0}}^{*}</script>；<br>第二步：给定<script type="math/tex">D_{G_{0}}^*</script>，计算<script type="math/tex">\min \limits_{G} V(G_{0}, D_{G_{0}}^*)</script>，即在给定<script type="math/tex">D_{G_{0}}^*</script>的情况下，更新$G_{0}$的参数，使得$D(G(z))$变大，也就是让$G_{0}$生成的图片尽量真实，从而让<script type="math/tex">D_{G_{0}}^*</script>给出更高的分数。其等价于让$1 - D(G(z))$变小，由于第一项$E_{x \sim P_{data}}logD(x)$与更新$G_{0}$的参数毫无关系，因此可直接忽略。因此就变成了$\min \limits_{G} E_{z \sim P_{z}(z)}log(1 - D(G_{0}(z))) = G_{1}$，更新完成后即得到了第一代$G_{1}$；<br>第三步：给定$G_{1}$，<script type="math/tex">\max \limits_{D} V(G_{1}, D_{G_{0}}^*) = D_{G_{1}}^*</script>；<br>第四步：给定<script type="math/tex">D_{G_{1}}^*</script>， <script type="math/tex">\min \limits_{G}V(G_{1}, D_{G_{1}}^*) = G_2</script>；<br>……循环往复……<br>注意：用梯度上升法（GA）找最优的$D^*$时需要更新参数多次直至找到最优的判别器，而在更新G时，一般只需更新一次，因为更新多次的话就不能保证JS下降了。</p>
 <h2 id="算法描述："><a href="#算法描述：" class="headerlink" title="算法描述："></a>算法描述：</h2><p>在实际中，取积分的近似$\sum$，因此得到如下算法：<br>discriminator：</p>
 <script type="math/tex; mode=display">
 L = \frac{1}{m} \sum_{i = 1}^{m}logD(x_i) + \frac{1}{m} \sum_{i = 1}
@@ -379,7 +379,7 @@ KL(P_{G}||P_{data}) & =  E_{x \sim P_{G}}log \frac{P_{G}(x)}{P_{data}(x)} \\
 & = E_{x \sim P_{G}}[log\frac{P_{G}(x)/P_{G}(x) + P_{data}(x)}{P_{data}(x) / P_{G}(x) + P_{data}(x)}] \\
 & = E_{x \sim P_{G}}log\frac{1 - D^*(x)}{D^*(x)} \\
 & = E_{x \sim P_{G}}log(1 - D^*(x)) - E_{x \sim P_{G}}logD^*(x) \\
-& \Rightarrow E_{x \sim P_{G}}[-logD^*(x)] = KL(P_{G}||P_{data}) - E_{x \sim P_{G}}log(1- D^*(x))
+\Rightarrow E_{x \sim P_{G}}[-logD^*(x)] & = KL(P_{G}||P_{data}) - E_{x \sim P_{G}}log(1- D^*(x))
 \end{align}</script><p>而<script type="math/tex">E_{x \sim P_{data}}[logD^*(x)] + E_{x \sim P_{G}}[log(1- D^*(x))] = 2JS(P_{data} || P_{G}) - 2log2</script>，<br>即<script type="math/tex">E_{x \sim P_{data}}[logD^*(x)] - 2JS(P_{data} || P_{G}) + 2log2 = -E_{x \sim P_{G}}[log(1- D^*(x))]</script>，</p>
 <script type="math/tex; mode=display">\Rightarrow E_{x \sim P_{G}}[-logD^*(x)] = KL(P_{G}||P_{data}) - 2JS(P_{data} || P_{G}) + E_{x \sim P_{data}}[logD^*(x)] + 2log2</script><p>由于最后两项不依赖于G，所以最终的优化目标为：</p>
 <script type="math/tex; mode=display">
