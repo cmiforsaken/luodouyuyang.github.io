@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="GAN," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="GAN（Generative Adversarial Nets）于14年由Ian J. Goodfellow提出，虽然在理论上看起来还是相当的漂亮，但是在实际的训练上却没那么的漂亮，直到17年W-GAN的提出，以及仅仅三个月后W-GAN-GP的提出才弥补了这一缺陷，而且理论上更加的漂亮，似乎已经无懈可击，但是最近Google的一项研究表示，不管是什么GAN的变种，其表现和原始GAN实际上都相差无几">
+<meta name="keywords" content="GAN">
+<meta property="og:type" content="article">
+<meta property="og:title" content="对，没错，就是“干”！（GAN）">
+<meta property="og:url" content="http://www.caomi.xyz/2018/11/21/对，没错，就是“干”！（GAN）/index.html">
+<meta property="og:site_name" content="罗豆与秧">
+<meta property="og:description" content="GAN（Generative Adversarial Nets）于14年由Ian J. Goodfellow提出，虽然在理论上看起来还是相当的漂亮，但是在实际的训练上却没那么的漂亮，直到17年W-GAN的提出，以及仅仅三个月后W-GAN-GP的提出才弥补了这一缺陷，而且理论上更加的漂亮，似乎已经无懈可击，但是最近Google的一项研究表示，不管是什么GAN的变种，其表现和原始GAN实际上都相差无几">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.caomi.xyz/2018/11/21/对，没错，就是“干”！（GAN）/gan1.jpg">
+<meta property="og:image" content="http://www.caomi.xyz/2018/11/21/对，没错，就是“干”！（GAN）/gan_2.jpg">
+<meta property="og:image" content="http://www.caomi.xyz/2018/11/21/对，没错，就是“干”！（GAN）/gan_4.jpg">
+<meta property="og:image" content="http://www.caomi.xyz/2018/11/21/对，没错，就是“干”！（GAN）/gan_3.png">
+<meta property="og:updated_time" content="2018-11-30T04:27:37.361Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="对，没错，就是“干”！（GAN）">
+<meta name="twitter:description" content="GAN（Generative Adversarial Nets）于14年由Ian J. Goodfellow提出，虽然在理论上看起来还是相当的漂亮，但是在实际的训练上却没那么的漂亮，直到17年W-GAN的提出，以及仅仅三个月后W-GAN-GP的提出才弥补了这一缺陷，而且理论上更加的漂亮，似乎已经无懈可击，但是最近Google的一项研究表示，不管是什么GAN的变种，其表现和原始GAN实际上都相差无几">
+<meta name="twitter:image" content="http://www.caomi.xyz/2018/11/21/对，没错，就是“干”！（GAN）/gan1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.caomi.xyz/2018/11/21/对，没错，就是“干”！（GAN）/"/>
+
+
+
+
+
+  <title>对，没错，就是“干”！（GAN） | 罗豆与秧</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">罗豆与秧</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">My feet have never returned to the ground.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-categories" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.caomi.xyz/2018/11/21/对，没错，就是“干”！（GAN）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="罗豆与秧">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="罗豆与秧">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">对，没错，就是“干”！（GAN）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-21T18:57:45+08:00">
+                2018-11-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>GAN（Generative Adversarial Nets）于14年由Ian J. Goodfellow提出，虽然在理论上看起来还是相当的漂亮，但是在实际的训练上却没那么的漂亮，直到17年W-GAN的提出，以及仅仅三个月后W-GAN-GP的提出才弥补了这一缺陷，而且理论上更加的漂亮，似乎已经无懈可击，但是最近Google的一项研究表示，不管是什么GAN的变种，其表现和原始GAN实际上都相差无几，对于庞大的GAN家族，无奈😂😂😂……<a id="more"></a></p>
+<h1 id="本文只介绍原始GAN的思想、推导以及缺陷，后续内容有时间在继续推出。"><a href="#本文只介绍原始GAN的思想、推导以及缺陷，后续内容有时间在继续推出。" class="headerlink" title="本文只介绍原始GAN的思想、推导以及缺陷，后续内容有时间在继续推出。"></a>本文只介绍原始GAN的思想、推导以及缺陷，后续内容有时间在继续推出。</h1><h2 id="Basic-idea-of-GAN"><a href="#Basic-idea-of-GAN" class="headerlink" title="Basic idea of GAN"></a>Basic idea of GAN</h2><p>GAN的目标函数（价值函数）：</p>
+<script type="math/tex; mode=display">
+\min_G \max_D V(D,G) = E_{x \sim P_{data}}logD(x) + E_{z \sim P_{z}(z)}log(1 - D(G(z)))</script><p>上述公式中，D是判别器，G是生成器，，从判别器的角度看，它希望自己尽可能区分真实样本和虚假样本，因此希望$D(x)$尽可能大，$D(G(z))$尽可能小，即$V(D,G)$尽可能大。从生成器G的角度看，它希望自己生成的样本尽可能骗过D，也就是希望$D(G(z))$尽可能大，即$V(D,G)$尽可能小，两个模型相互对抗/博弈，最后达到全局最优。（$P_{data}(x)$为真实样本的数据分布，$P_{z}(z)$为原始噪音的分布，$G(z)$为生成器/映射函数，即为噪音z经过生成器后生成的新的数据，其所有数据聚集起来服从$P_G$分布，即z经过生成器后的数据分布，学习的目标就是要让$P_{data}(x)$与$P_G$尽可能一样，即让$P_G$去拟合$P_{data}(x)$这个数据分布。）</p>
+<h2 id="证明：对上述目标函数进行最优化求解有唯一解-G-，并且该唯一解满足-P-G-P-data"><a href="#证明：对上述目标函数进行最优化求解有唯一解-G-，并且该唯一解满足-P-G-P-data" class="headerlink" title="证明：对上述目标函数进行最优化求解有唯一解$G^{*}$，并且该唯一解满足$P_G=P_{data}$"></a>证明：对上述目标函数进行最优化求解有唯一解$G^{*}$，并且该唯一解满足$P_G=P_{data}$</h2><p>在极大极小博弈的第一步中，给定G，最大化$V(D,G)$，从而得出最优判别器D，其中，最大化$V(D,G)$的过程就是在评估$P_G$和$P_{data}$之间的差异或者说距离（JS散度），公式化表述即为：</p>
+<script type="math/tex; mode=display">
+\max_D V(D,G) \quad \quad V(D,G)=E_{x \sim P_{data}}log(D(x)) + E_{x \sim P_G}(log(1-D(x)))</script><p>由上述期望式转化成积分式：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+& = \int_{x}P_{data}(x) \cdot log(D(x))dx + \int_{x}P_G(x) \cdot log(1-D(x))dx \\
+& = \int_{x}[P_{data}(x)logD(x) + P_G(x)log(1-D(x))]dx \\
+\end{align}</script><p>令$P_{data}(x) = a, \quad P_{G}(x) = b, \quad D(x) = D.$现要求上式的最大值，等价于求$P_{data}(x) \cdot logD(x) + P_{G}(x) \cdot log(1-D(x))$的最大值，即令：</p>
+<script type="math/tex; mode=display">
+f(D) = a \cdot logD + b \cdot log(1-D) \\</script><script type="math/tex; mode=display">
+\frac{df(D)}{dD} = \frac{a}{D} - \frac{b}{1 - D}=0 \Rightarrow D^* = \frac{a}{a + b}(D^*即为f(D)的极大值)</script><p>还原即得$D^<em>(x) = \frac{P_{data}(x)}{P_{data}(x) + P_G(x)} \Rightarrow 0&lt; D^</em>(x) &lt; 1 $当算法收敛得到最优解$P_{data}(x) = P_G(x)$时，$D^<em>(x) \equiv \frac{1}{2}$。即对于最优生成器生成的$G(z) = x$，最优判别器$D^</em>_{G}(x)= \frac{1}{2}$，即该判别器已经无法判别该样本是来自$P_{data}(x)$还是来自$P_{G}(x)$了，即认为x来自$P_{data}(x)$和$P_{G}(x)$的概率都是$\frac{1}{2}$.<br>求出了最优判别器$D^<em>$，则进行第二步，给定$D^</em>$，$ \min \limits_{G} V(G, D^*) $：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+V(G, D^*) & = E_{x \sim P_{data}(x)}[log\frac{P_{data}(x)}{P_{data}(x) + P_{G}(x)}] + E_{x \sim P_{G}}[\frac{P_{G}(x)}{P_{data}(x) + P_{G}(x)}] \\
+& = \int_{x}P_{data}(x) \cdot log \frac{\frac{1}{2} \cdot P_{data}(x)}{[P_{data}(x) + P_{G}(x)]/2}dx + \int_{x}P_{G}(x) \cdot log \frac{\frac{1}{2} \cdot P_{G}(x)}{[P_{data}(x) + P_{G}(x)]/2}dx \\
+& = \int_{x}P_{data}(x) \cdot (log\frac{1}{2} + log2 + log\frac{P_{data}(x)}{P_{data}(x) + P_{G}(x)})dx + \int_{x}P_{G}(x) \cdot (log\frac{1}{2} + log2 + log\frac{P_{G}(x)}{P_{data}(x) + P_{G}(x)})dx \\
+& = log\frac{1}{2}\int_{x}P_{data}(x)dx + \int_{x}P_{data}(x) \cdot log \frac{P_{data}(x)}{[P_{data}(x) + P_{G}(x)]/2}dx + log\frac{1}{2}\int_{x}P_{G}(x)dx + \int_{x}P_{G}(x) \cdot log \frac{P_{G}(x)}{[P_{data}(x) + P_{G}(x)]/2}dx \\
+& = 2log\frac{1}{2} + \int_{x}P_{data}(x) \cdot log \frac{P_{data}(x)}{[P_{data}(x) + P_{G}(x)]/2}dx + \int_{x}P_{G}(x) \cdot log \frac{P_{G}(x)}{[P_{data}(x) + P_{G}(x)]/2}dx \\
+& = 2log\frac{1}{2} + KL(P_{data}(x)||\frac{P_{data}(x) + P_{G}(x)}{2}) + KL(P_{G}(x)||\frac{P_{data}(x) + P_{G}(x)}{2}) \\
+& = -2log2 + 2JS(P_{data}(x)||P_{G}(x)). \quad  即JS散度
+\end{align}</script><p>即第二步就是在$\min P_{data}(x)$与$P_{G}(x)$之间的JS散度，也就是在拉近$P_{data}(x)$与$P_{G}(x)$的距离。这就证明了优化上述目标函数能够得到唯一解$G^*$，且该唯一解满足$P_{data}(x) = P_{G}(x)$。<br>注：<br>（1）这里的证明是基于$E_{z \sim P_{z}(z)}log(1 - D(G(z))) = E_{x \sim P_G}(log(1-D(x)))$的，该等式源于测度论中的RN定理，但是用在这里的证明并不严谨，只不过大家都这么说；<br>（2）JS散度：</p>
+<script type="math/tex; mode=display">
+JS(P||Q) = \frac{1}{2}KL(P||M) + \frac{1}{2}KL(Q||M). \quad M = \frac{1}{2}(P + Q)</script><p>$0 &lt; JS &lt; log2$，也用于衡量两个分布之间的距离，同KL散度，但是JS散度相较于KL散度具有对称性。</p>
+<h2 id="对上述过程的通俗化说明："><a href="#对上述过程的通俗化说明：" class="headerlink" title="对上述过程的通俗化说明："></a>对上述过程的通俗化说明：</h2><p>第一步：G为随机给定的一个分布，记为$G_0$，其产生的图片为$G_{0}(z)$，首先$ \max \limits_{D} E_{x \sim P_{data}}logD(x) + E_{z \sim P_{z}(z)}log(1 - D(G_{0}(z)))$。即对于来自真实样本的x，使得$D(x)$尽可能的大，对于来自$P_{z}(z)$分布中的样本z，尽量使$D(G(z))$变小，这样根据原始$G_{0}$就产生了最优的$D_{G_{0}}^<em>$；<br>第二步：给定$D_{G_{0}}^</em>$，计算$\min \limits_{G} V(G_{0}, D_{G_{0}}^<em>)$，即在给定$D_{G_{0}}^</em>$的情况下，更新$G_{0}$的参数，使得$D(G(z))$变大，也就是让$G_{0}$生成的图片尽量真实，从而让$D_{G_{0}}^<em>$给出更高的分数。其等价于让$1 - D(G(z))$变小，由于第一项$E_{x \sim P_{data}}logD(x)$与更新$G_{0}$的参数毫无关系，因此可直接忽略。因此就变成了$\min \limits_{G} E_{z \sim P_{z}(z)}log(1 - D(G_{0}(z))) = G_{1}$，更新完成后即得到了第一代$G_{1}$；<br>第三步：给定$G_{1}$，$\max \limits_{D} V(G_{1}, D_{G_{0}}^</em>)) = D_{G_{1}}^<em>)$；<br>第四步：给定$D_{G_{1}}^</em>$， $\min \limits_{G}V(G_{1}, D_{G_{1}}^<em>)) = G_2$；<br>……循环往复……<br>注意：用梯度上升法（GA）找最优的$D^</em>$时需要更新参数多次直至找到最优的判别器，而在更新G时，一般只需更新一次，因为更新多次的话就不能保证JS下降了。</p>
+<h2 id="算法描述："><a href="#算法描述：" class="headerlink" title="算法描述："></a>算法描述：</h2><p>在实际中，取积分的近似$\sum$，因此得到如下算法：<br>discriminator：</p>
+<script type="math/tex; mode=display">
+L = \frac{1}{m} \sum_{i = 1}^{m}logD(x_i) + \frac{1}{m} \sum_{i = 1}
+^{m} log(1- D(\tilde{x_i})) \\
+\theta_d \leftarrow \theta_d + \eta \cdot \frac{\partial L}{\partial \theta_d}</script><p>generator：</p>
+<script type="math/tex; mode=display">
+L = \frac{1}{m} \sum_{i = 1}^{m}log(1 - D(G(z_i))) \\
+\theta_g \leftarrow \theta_g - \eta \cdot \frac{\partial L}{\partial \theta_g}</script><p>在实际操作中第二步的L改为：</p>
+<script type="math/tex; mode=display">
+L = -\frac{1}{m} \sum_{i = 1}^{m}logD(G(z_i)) \\
+\theta_g \leftarrow \theta_g - \eta \cdot \frac{\partial L}{\partial \theta_g}</script><p>原因：<br><img src="/2018/11/21/对，没错，就是“干”！（GAN）/gan1.jpg" alt="gan1"><br>即让训练初期下降的更快是合理的，所以在第二步中做了上述改动。</p>
+<h2 id="GAN中discriminator与generator结合的优势："><a href="#GAN中discriminator与generator结合的优势：" class="headerlink" title="GAN中discriminator与generator结合的优势："></a>GAN中discriminator与generator结合的优势：</h2><p>discriminator比较容易感知component与component之间的相关性，而generator不容易感知component与component之间的相关性，因此每个component由generator独立生成，即generator在decoder一张图片时，神经网络在输出时并不能考虑到单元与单元之间的相关性，所以将discriminator和generator组合成一个神经网络，其前半部分结构为generator，生成完图片后再让discriminator对其评分，当discriminator感知到pixel与pixel之间有空白pixel的时候，尽管此时与原图只相差一个pixel，但是discriminator依然会给其很低的分数，因此generator和discriminator组合成一个NN的时候，就会增强整个结构的robust性（能用更浅的NN结构产生与很深的VAE结构相差不大甚至更好的效果）。</p>
+<h2 id="原始GAN存在的一些缺陷"><a href="#原始GAN存在的一些缺陷" class="headerlink" title="原始GAN存在的一些缺陷"></a>原始GAN存在的一些缺陷</h2><p>1、在最优$D^<em>$条件下，实际上$P_{data}$和$P_G$不会有任何相交的部分，所以此时$P_{data}$和$P_{G}$不管是相距很远还是相距很近，他们的JS散度都等于$log2$，表现在图像中即为下图（1），即在最优$D^</em>$条件下JS散度的图像如（1）所示：<br><img src="/2018/11/21/对，没错，就是“干”！（GAN）/gan_2.jpg" alt="gan_2"><br>此时$\frac{\partial JS(P_{data}(x)||P_{G}(x))}{\partial \theta_g} = 0 $（斜率为0），无法给G提供梯度，G的loss降不下来（JS散度），梯度消失。这时在训练中就会表现出G的loss一直是$log2$，而D的loss一直接近0.<br>在不是最优$D^<em>$条件下，此时依然将其近似为$P_{data}(x)$和$P_{G}(x)$的JS散度，但此时$P_{G}$和$P_{data}$有了相交的部分，此时JS散度的图像可能表现为（2），且$JS(P_{data}(x)||P_{G}(x) &lt; log2$，所以在理想$D^</em>$条件下，$P_{G}$和$P_{data}$的JS散度反映的就是G的loss，我们能通过这个loss看到训练的进程，此时在更新$\theta_g$时也能提供大于0的梯度，使得G的loss得到下降，但这种情况仅仅出现在理想的$D^<em>$情况下。<br>实际上原始GAN如果要收敛的很好，$D^</em>$要满足两个条件，首先$D^<em>$需要训练到最优，因为只有最优条件下在给定$D^</em>$后才能将loss近似为JS散度；第二$D^*$又不能训练到最优，只有不是最优的，JS散度的图像才可能是上图中的（2），这样才能稳步的拉近两个分布之间的距离，否则就会梯度消失，在实际操作中，会“折衷”满足这两个条件，但是这个“折衷”的度却很难把握，因此原始GAN的训练才会很困难；<br>2、对于实际操作过程中的G的loss，$L_{G} = E_{x \sim P_{G}}[-logD(x)]$也非常不合理，由：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+KL(P_{G}||P_{data}) & =  E_{x \sim P_{G}}log \frac{P_{G}(x)}{P_{data}(x)} \\
+& = E_{x \sim P_{G}}[log\frac{P_{G}(x)/P_{G}(x) + P_{data}(x)}{P_{data}(x) / P_{G}(x) + P_{data}(x)}] \\
+& = E_{x \sim P_{G}}log\frac{1 - D^*(x)}{D^*(x)} \\
+& = E_{x \sim P_{G}}log(1 - D^*(x)) - E_{x \sim P_{G}}logD^*(x) \\
+& \Rightarrow E_{x \sim P_{G}}[-logD^*(x)] = KL(P_{G}||P_{data}) - E_{x \sim P_{G}}log(1- D^*(x))
+\end{align}</script><p>而$E_{x \sim P_{data}}[logD^<em>(x)] + E_{x \sim P_{G}}[log(1- D^</em>(x))] = 2JS(P_{data} || P_{G}) - 2log2$，<br>即$E_{x \sim P_{data}}[logD^<em>(x)] - 2JS(P_{data} || P_{G}) + 2log2 = -E_{x \sim P_{G}}[log(1- D^</em>(x))]$，<br>$\Rightarrow E_{x \sim P_{G}}[-logD^<em>(x)] = KL(P_{G}||P_{data}) - 2JS(P_{data} || P_{G}) + E_{x \sim P_{data}}[logD^</em>(x)] + 2log2 $<br>由于最后两项不依赖于G，所以最终的优化目标为：</p>
+<script type="math/tex; mode=display">
+\min_G KL (P_G||P_{data}) - 2JS(P_{data} || P_{G})</script><p>由上式可知，它既要最小化$P_{G}$与$P_{data}$的KLD，同时又要最大化两者的JSD，这实际上就已经很不合理了，在熟数值上会导致梯度极其不稳定。<br>对于KLD来说，由于其不是一个对称的量，以$KL (P_G||P_{data})$为例：</p>
+<script type="math/tex; mode=display">
+当P_G(x) \rightarrow 0, 而P_{data}(x) \rightarrow 1 时，P_G(x) \cdot log\frac{P_G(x)}{P_{data}(x)} \quad \rightarrow 0，即对KL(P_{G}(x)||P_{data}(x))贡献趋近0. \\
+当P_G(x) \rightarrow 1, 而P_{data}(x) \rightarrow 0 时，P_G(x) \cdot log\frac{P_G(x)}{P_{data}(x)} \quad \rightarrow +\infty，对KL(P_{G}(x)||P_{data}(x))贡献趋近+ \infty.</script><p>也就是说，当G“没能生成真实样本”的时候，产生的loss会很小，对于优化器来说，它是“喜欢”的，因为不用费太大劲就能把它降下去，而当G“生成了不真实的样本”后，产生的loss就会很大，对于优化器来说，它很“不喜欢”，因为它需要费很大的劲才能把它降下去，此时对G来说，它就宁可去多生成一些重复但是很“安全”的样本，也不愿意去生成更加多样化的样本，因为那样一不小心就会产生很大的loss，得不偿失，这种现象就是collapse mode（生成的样本中有很多重复样本且缺乏多样性）。</p>
+<h2 id="DCGAN尝试训练"><a href="#DCGAN尝试训练" class="headerlink" title="DCGAN尝试训练"></a>DCGAN尝试训练</h2><p>下面是用DCGAN训练了300个epochs后生成的图片，训练数据集为OxFord Flowers 17，从原图与G生成的图片对比来看的话，还有很大的提升空间！😂😂😂<br>原图示例：<br><img src="/2018/11/21/对，没错，就是“干”！（GAN）/gan_4.jpg" alt="gan_4"><br>生成的图片示例：<br><img src="/2018/11/21/对，没错，就是“干”！（GAN）/gan_3.png" alt="gan_3"></p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>[1]Ian J. Goodfellow, Jean Pouget-Abadie∗, Mehdi Mirza, Bing Xu, David Warde-Farley, Sherjil Ozair†, Aaron Courville, Yoshua Bengio, Generative Adversarial Nets, Universite ́ de Montre ́al, 2014<br>[2]Martin Arjovsky, Soumith Chintala, and L ́eon Bottou, Wasserstein GAN, Courant Institute of Mathematical Sciences, Facebook AI Research, 2017<br>[3]<a href="https://www.youtube.com/watch?v=DQNNMiAP5lw&amp;feature=youtu.be" target="_blank" rel="noopener">https://www.youtube.com/watch?v=DQNNMiAP5lw&amp;feature=youtu.be</a>, 2018<br>[4]<a href="https://zhuanlan.zhihu.com/p/25071913" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/25071913</a><br>[5]<a href="https://blog.csdn.net/stalbo/article/details/79283399" target="_blank" rel="noopener">https://blog.csdn.net/stalbo/article/details/79283399</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="罗豆与秧 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/GAN/" rel="tag"># GAN</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/16/Facenet人脸识别项目小结/" rel="next" title="Facenet人脸识别项目小结">
+                <i class="fa fa-chevron-left"></i> Facenet人脸识别项目小结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNTE1Ny8xMTY5Mg=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="罗豆与秧" />
+            
+              <p class="site-author-name" itemprop="name">罗豆与秧</p>
+              <p class="site-description motion-element" itemprop="description">Land of the free.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/cmiforsaken" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#本文只介绍原始GAN的思想、推导以及缺陷，后续内容有时间在继续推出。"><span class="nav-number">1.</span> <span class="nav-text">本文只介绍原始GAN的思想、推导以及缺陷，后续内容有时间在继续推出。</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Basic-idea-of-GAN"><span class="nav-number">1.1.</span> <span class="nav-text">Basic idea of GAN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#证明：对上述目标函数进行最优化求解有唯一解-G-，并且该唯一解满足-P-G-P-data"><span class="nav-number">1.2.</span> <span class="nav-text">证明：对上述目标函数进行最优化求解有唯一解$G^{*}$，并且该唯一解满足$P_G=P_{data}$</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对上述过程的通俗化说明："><span class="nav-number">1.3.</span> <span class="nav-text">对上述过程的通俗化说明：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法描述："><span class="nav-number">1.4.</span> <span class="nav-text">算法描述：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GAN中discriminator与generator结合的优势："><span class="nav-number">1.5.</span> <span class="nav-text">GAN中discriminator与generator结合的优势：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原始GAN存在的一些缺陷"><span class="nav-number">1.6.</span> <span class="nav-text">原始GAN存在的一些缺陷</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DCGAN尝试训练"><span class="nav-number">1.7.</span> <span class="nav-text">DCGAN尝试训练</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">1.8.</span> <span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">罗豆与秧</span>
+
+  
+</div>
+
+
+
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a></div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>
